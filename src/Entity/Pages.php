@@ -27,6 +27,9 @@ class Pages
     #[ORM\Column(length: 750, nullable: true)]
     private ?string $contents2 = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Pages
     public function setContents2(?string $contents2): self
     {
         $this->contents2 = $contents2;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

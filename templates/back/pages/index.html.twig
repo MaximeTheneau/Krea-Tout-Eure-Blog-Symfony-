@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages index{% endblock %}
+
+{% block body %}
+    <h1>Pages index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Subtitle</th>
+                <th>Contents</th>
+                <th>Contents2</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.subtitle }}</td>
+                <td>{{ page.contents }}</td>
+                <td>{{ page.contents2 }}</td>
+                <td>
+                    <a href="{{ path('app_back_pages_show', {'id': page.id}) }}">show</a>
+                    <a href="{{ path('app_back_pages_edit', {'id': page.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_back_pages_new') }}">Create new</a>
+{% endblock %}
