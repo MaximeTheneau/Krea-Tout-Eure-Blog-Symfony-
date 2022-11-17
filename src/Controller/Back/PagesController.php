@@ -9,26 +9,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+// Slug
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[Route('/pages')]
 class PagesController extends AbstractController
 {
+    private $slugger;
+    
+    public function __construct(
+        SluggerInterface $slugger
+    )
+    {
+        $this->slugger = $slugger;
+    }
+
     #[Route('/', name: 'app_back_pages_index', methods: ['GET'])]
     public function index(PagesRepository $pagesRepository): Response
-    {
+    {        
+
         return $this->render('back/pages/index.html.twig', [
             'pages' => $pagesRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_back_pages_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PagesRepository $pagesRepository): Response
+    public function new(Request $request, PagesRepository $pagesRepository, ): Response
     {
         $page = new Pages();
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $page->setSlug($this->slugger->slug($page->getTitle()));
+
             $pagesRepository->save($page, true);
 
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
