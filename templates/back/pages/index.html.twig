@@ -13,7 +13,7 @@
                 <th>Subtitle</th>
                 <th>Contents</th>
                 <th>Contents2</th>
-                <th>actions</th>
+                <th>imgHeader</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +24,9 @@
                 <td>{{ page.subtitle }}</td>
                 <td>{{ page.contents }}</td>
                 <td>{{ page.contents2 }}</td>
+                <td>
+                    <img src={{page.imgHeader}} alt="imgHeader" width="100px">
+                </td>
                 <td>
                     <a href="{{ path('app_back_pages_show', {'id': page.id}) }}">show</a>
                     <a href="{{ path('app_back_pages_edit', {'id': page.id}) }}">edit</a>

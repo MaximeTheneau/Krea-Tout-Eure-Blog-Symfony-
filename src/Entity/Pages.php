@@ -30,6 +30,9 @@ class Pages
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $imgHeader = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Pages
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getImgHeader(): ?string
+    {
+        return $this->imgHeader;
+    }
+
+    public function setImgHeader(string $imgHeader): self
+    {
+        $this->imgHeader = $imgHeader;
 
         return $this;
     }
