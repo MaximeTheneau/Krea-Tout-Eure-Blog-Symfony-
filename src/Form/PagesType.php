@@ -22,13 +22,18 @@ class PagesType extends AbstractType
                 FileType::class,
                 [
                     'label' => 'Image de couverture',
-                    'required' => false,
                     'constraints' => [
                         new File([
+                            'maxSize' => '5M',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/webp',
+                                'image/png',
+                            ],
                             'mimeTypesMessage' => 'Veuillez uploader une image valide', 
-                                               ])
+                        ])
                     ],
-                ]
+                ],
             )
         ;
     }

@@ -11,26 +11,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-
+use App\Services\ImageOptimizer;
 
 #[Route('/pages')]
 class PagesController extends AbstractController
 {
+    private $imageOptimizer;
     private $slugger;
+    private $photoDir;
     private $params;
-    
-    public function __construct(
-        SluggerInterface $slugger,
-        ContainerBagInterface $params
+    private $projectDir;
 
+    public function __construct(
+        ContainerBagInterface $params,
+        ImageOptimizer $imageOptimizer,
+        SluggerInterface $slugger,
     )
     {
-        $this->slugger = $slugger;
         $this->params = $params;
+        $this->imageOptimizer = $imageOptimizer;
+        $this->slugger = $slugger;
+        $this->projectDir =  $this->params->get('app.projectDir');
+        $this->photoDir =  $this->params->get('app.imgDir');
     }
 
     #[Route('/', name: 'app_back_pages_index', methods: ['GET'])]
@@ -51,34 +56,12 @@ class PagesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $slugImg = $this->projectDir.$this->photoDir.$this->slugger->slug($this->slugger->slug($page->getTitle())).'-500-100.webp';
+            
+            $this->imageOptimizer->setPicture($form->get('imgHeader')->getData(), $this->slugger->slug($page->getTitle()));
+
             $page->setSlug($this->slugger->slug($page->getTitle()));
-            //$page->setImgHeader($form->get('imgHeader')->getData());
-
-
-            $brochureFile = $form->get('imgHeader')->getData();
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $this->slugger->slug($originalFilename);
-                $newFilename = 'http://localhost/Krea-Tout-Eure-Blog-Symfony-/public/uploads/images/'.$originalFilename.'.webp';
-                #dd($newFilename);
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('app.usersImageDir'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $page->setImgHeader($newFilename);
-            }
-
+            $page->setImgHeader($slugImg);
             $pagesRepository->save($page, true);
             
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
