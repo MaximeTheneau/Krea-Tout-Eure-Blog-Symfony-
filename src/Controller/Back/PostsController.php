@@ -9,10 +9,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
-#[Route('/back/posts')]
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use App\Services\ImageOptimizer;
+
+#[Route('/posts')]
 class PostsController extends AbstractController
 {
+    private $imageOptimizer;
+    private $slugger;
+    private $photoDir;
+    private $params;
+    private $projectDir;
+
+    public function __construct(
+        ContainerBagInterface $params,
+        ImageOptimizer $imageOptimizer,
+        SluggerInterface $slugger,
+    )
+    {
+        $this->params = $params;
+        $this->imageOptimizer = $imageOptimizer;
+        $this->slugger = $slugger;
+        $this->projectDir =  $this->params->get('app.projectDir');
+        $this->photoDir =  $this->params->get('app.imgDir');
+    }
+
     #[Route('/', name: 'app_back_posts_index', methods: ['GET'])]
     public function index(PostsRepository $postsRepository): Response
     {
@@ -29,6 +55,23 @@ class PostsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // IMAGE 1
+            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost');
+
+
+            // IMAGE 2
+            #$this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $slug.'2' , 'setImgPost2' , $post);
+
+            // IMAGE 3
+            #$this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $slug.'3' , 'setImgPost3' , $post);
+
+            // IMAGE 4
+            #$this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $slug.'4' , 'setImgPost4' , $post);
+
+           
+
             $postsRepository->save($post, true);
 
             return $this->redirectToRoute('app_back_posts_index', [], Response::HTTP_SEE_OTHER);
@@ -43,8 +86,11 @@ class PostsController extends AbstractController
     #[Route('/{id}', name: 'app_back_posts_show', methods: ['GET'])]
     public function show(Posts $post): Response
     {
+        $jsonDecode = json_decode($post->getImgPost(), true);
+
         return $this->render('back/posts/show.html.twig', [
             'post' => $post,
+            'jsonDecode' => $jsonDecode,
         ]);
     }
 
@@ -55,6 +101,7 @@ class PostsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $postsRepository->save($post, true);
 
             return $this->redirectToRoute('app_back_posts_index', [], Response::HTTP_SEE_OTHER);

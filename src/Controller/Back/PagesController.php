@@ -90,7 +90,6 @@ class PagesController extends AbstractController
         
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
-        
         if ($form->isSubmitted() && $form->isValid()) {
             $pagesRepository->save($page, true);
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221117170638 extends AbstractMigration
+final class Version20221119174803 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20221117170638 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE pages ADD img_header VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE posts ADD img_post LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\'');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE pages DROP img_header');
+        $this->addSql('ALTER TABLE posts DROP img_post');
     }
 }

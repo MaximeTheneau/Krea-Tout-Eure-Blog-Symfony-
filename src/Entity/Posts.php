@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PostsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostsRepository::class)]
@@ -27,9 +28,6 @@ class Posts
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imgPost = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imgPost2 = null;
 
@@ -38,6 +36,12 @@ class Posts
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imgPost4 = null;
+
+    #[ORM\Column(length: 70, nullable: true)]
+    private ?string $subtitle = null;
+
+    #[ORM\Column(length: 70, nullable: true)]
+    private ?string $imgPost = null;
 
     public function getId(): ?int
     {
@@ -92,17 +96,8 @@ class Posts
         return $this;
     }
 
-    public function getImgPost(): ?string
-    {
-        return $this->imgPost;
-    }
 
-    public function setImgPost(string $imgPost): self
-    {
-        $this->imgPost = $imgPost;
 
-        return $this;
-    }
 
     public function getImgPost2(): ?string
     {
@@ -136,6 +131,30 @@ class Posts
     public function setImgPost4(?string $imgPost4): self
     {
         $this->imgPost4 = $imgPost4;
+
+        return $this;
+    }
+
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+
+    public function setSubtitle(?string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    public function getImgPost(): ?string
+    {
+        return $this->imgPost;
+    }
+
+    public function setImgPost(string $imgPost): self
+    {
+        $this->imgPost = $imgPost;
 
         return $this;
     }
