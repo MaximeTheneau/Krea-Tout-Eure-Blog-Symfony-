@@ -4,16 +4,19 @@
 
 {% block body %}
     <h1>Posts</h1>
-{{ jsonDecode.middle }}
+    <img src={{ img.middle }} alt="">
+    <img src={{ img2.middle }} alt="">
+    <img src={{ img3.middle }} alt="">
+    <img src={{ img4.middle }} alt="">
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
                 <th>Title</th>
                 <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th>Sous Titre</th>
+                <td>{{ post.subtitle }}</td>
             </tr>
             <tr>
                 <th>Contents</th>
@@ -22,26 +25,6 @@
             <tr>
                 <th>Contents2</th>
                 <td>{{ post.contents2 }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ post.slug }}</td>
-            </tr>
-            <tr>
-                <th>ImgPost</th>
-                <td>{{ post.imgPost }}</td>
-            </tr>
-            <tr>
-                <th>ImgPost2</th>
-                <td>{{ post.imgPost2 }}</td>
-            </tr>
-            <tr>
-                <th>ImgPost3</th>
-                <td>{{ post.imgPost3 }}</td>
-            </tr>
-            <tr>
-                <th>ImgPost4</th>
-                <td>{{ post.imgPost4 }}</td>
             </tr>
         </tbody>
     </table>

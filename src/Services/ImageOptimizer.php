@@ -38,19 +38,17 @@ class ImageOptimizer
             $this->dataManager   = $dataManager;
     }
 
-    public function setPicture( $brochureFile, $post, $name ): void
+    public function setPicture( $brochureFile, $post, $setName, $slug ): void
     {   
 
-        $slug = $this->slugger->slug($this->slugger->slug($post->getTitle()));
-
-        $post->setSlug($slug);
+        #dd($slug);
         #dd($this->projectDir.$this->photoDir.$slug.'s-w250-q80.webp,');
         $newForm = '{"small": "'.$this->projectDir.$this->photoDir.$slug.'s-w250-q80.webp",'
                 .'"middle": "'.$this->projectDir.$this->photoDir.$slug.'l-w=1000-q=80.webp",'
                 .'"large": "'.$this->projectDir.$this->photoDir.$slug.'m-w500-q80.webp"}';
         #dd($newForm);
 
-        $post->$name($newForm);
+        $post->$setName($newForm);
 
         
         #dd($slugBase.'s-w250-q80.webp');
@@ -66,7 +64,6 @@ class ImageOptimizer
         $large = $this->imagine->open($brochureFile)
             ->thumbnail(new Box(1000, 1000))
             ->save($this->photoDir.$slug.'l-w=1000-q=80.webp', ['webp_quality' => 80]);
-        
     
      }
 }

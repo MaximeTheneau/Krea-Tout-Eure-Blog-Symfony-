@@ -28,19 +28,19 @@ class Posts
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $imgPost2 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $imgPost3 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $imgPost4 = null;
 
     #[ORM\Column(length: 70, nullable: true)]
     private ?string $subtitle = null;
 
-    #[ORM\Column(length: 70, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $imgPost = null;
 
     public function getId(): ?int

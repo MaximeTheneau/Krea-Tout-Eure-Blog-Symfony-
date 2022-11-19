@@ -53,22 +53,24 @@ class PostsController extends AbstractController
         $post = new Posts();
         $form = $this->createForm(PostsType::class, $post);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug($post->getTitle());
+            $post->setSlug($slug);
 
 
             // IMAGE 1
-            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost');
+            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
 
 
             // IMAGE 2
-            #$this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $slug.'2' , 'setImgPost2' , $post);
+            $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', 'imgPost-2');
 
             // IMAGE 3
-            #$this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $slug.'3' , 'setImgPost3' , $post);
+            $this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $post, 'setImgPost3', 'imgPost-3');
 
             // IMAGE 4
-            #$this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $slug.'4' , 'setImgPost4' , $post);
+            $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', 'imgPost-4');
 
            
 
@@ -86,11 +88,17 @@ class PostsController extends AbstractController
     #[Route('/{id}', name: 'app_back_posts_show', methods: ['GET'])]
     public function show(Posts $post): Response
     {
-        $jsonDecode = json_decode($post->getImgPost(), true);
+        $img = json_decode($post->getImgPost(), true);
+        $img2 = json_decode($post->getImgPost2(), true);
+        $img3 = json_decode($post->getImgPost3(), true);
+        $img4 = json_decode($post->getImgPost4(), true);
 
         return $this->render('back/posts/show.html.twig', [
             'post' => $post,
-            'jsonDecode' => $jsonDecode,
+            'img' => $img,
+            'img2' => $img2,
+            'img3' => $img3,
+            'img4' => $img4,
         ]);
     }
 
