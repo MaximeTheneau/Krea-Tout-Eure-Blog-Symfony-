@@ -51,8 +51,11 @@
       </a>
 
       {% if is_granted('ROLE_USER') %}
-        <a class="navbar-item" href=/pages>
+        <a class="navbar-item" href="/pages">
             Pages
+        </a>
+        <a class="navbar-item" href="/image/placeholder">
+            Images Placeholder
         </a>
     {% endif %}
 

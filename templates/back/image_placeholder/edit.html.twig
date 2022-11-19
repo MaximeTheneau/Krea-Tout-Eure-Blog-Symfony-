@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ImagePlaceholder{% endblock %}
+
+{% block body %}
+    <h1>Edit ImagePlaceholder</h1>
+
+    {{ include('back/image_placeholder/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_back_image_placeholder_index') }}">back to list</a>
+
+    {{ include('back/image_placeholder/_delete_form.html.twig') }}
+{% endblock %}

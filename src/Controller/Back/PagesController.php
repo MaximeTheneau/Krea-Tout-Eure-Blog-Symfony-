@@ -79,9 +79,6 @@ class PagesController extends AbstractController
     #[Route('/{id}', name: 'app_back_pages_show', methods: ['GET'])]
     public function show(Pages $page): Response
     {
-        $page->getImgHeader();
-
-
         return $this->render('back/pages/show.html.twig', [
             'page' => $page,
         ]);
@@ -90,17 +87,12 @@ class PagesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_back_pages_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Pages $page, PagesRepository $pagesRepository): Response
     {
-        $imgHeader= $page->getImgHeader();
-        $page = new Pages();
-        $page->setImgHeader($imgHeader);
+        
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $pagesRepository->save($page, true);
-
-
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
         }
 

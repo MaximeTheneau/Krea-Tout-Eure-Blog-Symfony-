@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ImagePlaceholder index{% endblock %}
+
+{% block body %}
+    <h1>ImagePlaceholder index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ImgBase64</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for image_placeholder in image_placeholders %}
+            <tr>
+                <td>{{ image_placeholder.id }}</td>
+                <td>{{ image_placeholder.imgBase64 }}</td>
+                <td>
+                    <a href="{{ path('app_back_image_placeholder_show', {'id': image_placeholder.id}) }}">show</a>
+                    <a href="{{ path('app_back_image_placeholder_edit', {'id': image_placeholder.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_back_image_placeholder_new') }}">Create new</a>
+{% endblock %}
