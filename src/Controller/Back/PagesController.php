@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use App\Services\ImageOptimizer;
@@ -54,6 +55,8 @@ class PagesController extends AbstractController
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $slugImg = $this->projectDir.$this->photoDir.$this->slugger->slug($this->slugger->slug($page->getTitle())).'-500-100.webp';
@@ -76,6 +79,9 @@ class PagesController extends AbstractController
     #[Route('/{id}', name: 'app_back_pages_show', methods: ['GET'])]
     public function show(Pages $page): Response
     {
+        $page->getImgHeader();
+
+
         return $this->render('back/pages/show.html.twig', [
             'page' => $page,
         ]);
@@ -84,11 +90,16 @@ class PagesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_back_pages_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Pages $page, PagesRepository $pagesRepository): Response
     {
+        $imgHeader= $page->getImgHeader();
+        $page = new Pages();
+        $page->setImgHeader($imgHeader);
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $pagesRepository->save($page, true);
+
 
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
         }

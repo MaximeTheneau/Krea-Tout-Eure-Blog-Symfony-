@@ -38,14 +38,13 @@ class ImageOptimizer
     {   
 
         $middle = $this->imagine->open($brochureFile)
-            ->thumbnail(new Box(500, 500))
+            ->thumbnail(new Box(500, 500), allow_upscale: true)
             ->save($this->photoDir.$newFilename.'-500-100.webp', ['webp_quality' => 80]);
         
         $small = $this->imagine
             ->open($brochureFile)
             ->thumbnail(new Box(250, 250))
             ->save($this->photoDir.$newFilename.'-250-80.webp', ['webp_quality' => 80]);
-        
     
      }
 }

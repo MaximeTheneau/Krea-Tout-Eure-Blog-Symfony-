@@ -27,12 +27,18 @@
                 <th>Contents2</th>
                 <td>{{ page.contents2 }}</td>
             </tr>
+            <tr>
+                <th>Images de couverture</th>
+                <td>
+                    <img src={{page.imgHeader}} alt="" />
+                </td>
+            </tr>
         </tbody>
     </table>
 
     <a href="{{ path('app_back_pages_index') }}">back to list</a>
 
-    <a href="{{ path('app_back_pages_edit', {'id': page.id}) }}">edit</a>
+    <a href="{{ path('app_back_pages_edit', {'id': '84'}) }}">edit</a>
 
     {{ include('back/pages/_delete_form.html.twig') }}
 {% endblock %}

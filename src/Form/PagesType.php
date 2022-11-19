@@ -22,6 +22,7 @@ class PagesType extends AbstractType
                 FileType::class,
                 [
                     'label' => 'Image de couverture',
+                    'mapped' => false,
                     'constraints' => [
                         new File([
                             'maxSize' => '5M',
@@ -35,6 +36,7 @@ class PagesType extends AbstractType
                     ],
                 ],
             )
+
         ;
     }
 
