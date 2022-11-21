@@ -17,7 +17,14 @@ class HomeController extends AbstractController
 
     public function home(): Response
     {
-        return $this->render('back/index.html.twig');
+        if($this->getUser() != null) {
+            return $this->render('back/index.html.twig', [
+                'id' => $this->getUser()->getId(),
+            ]);
+        } else {
+            return $this->render('back/index.html.twig', [
+            ]);
+        }
         
     }
 }

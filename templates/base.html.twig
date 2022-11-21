@@ -51,16 +51,21 @@
       </a>
 
       {% if is_granted('ROLE_USER') %}
-        <a class="navbar-item" href="/pages">
-            Pages
-        </a>
-        <a class="navbar-item" href="/image/placeholder">
-            Images Placeholder
-        </a>
         <a class="navbar-item" href="/posts">
             Articles 
         </a>
-    {% endif %}
+        {% if app.user %}
+          <a class="navbar-item" href='/user/{{id}}/edit'>
+              Mon compte
+          </a>
+        {% endif %}
+      {% endif %}
+      {% if is_granted('ROLE_MANAGER') %}
+
+        <a class="navbar-item" href="/user">
+          Utilisateurs
+        </a>
+      {% endif %}
 
 
     </div>
@@ -69,7 +74,7 @@
       <div class="navbar-item">
         <div class="buttons">
             {% if app.user %}
-                <a class="button is-primary" href="{{ path('app_logout') }}">
+                <a class="button is-primary" href="/logout" }}">
                     <strong>Déconnexion</strong>
                 </a>
             {% endif %}
