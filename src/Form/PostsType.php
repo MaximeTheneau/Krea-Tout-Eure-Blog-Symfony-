@@ -26,7 +26,8 @@ class PostsType extends AbstractType
                 ]
             ])
             ->add('subtitle', null, [
-                'label' => 'Sous-titre de l\'article *',
+                'label' => 'Sous-titre de l\'article ',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Le sous-titre de l\'article ne doit pas faire plus de 70 caractère comme le texte ici 70 ...',
                 ]
@@ -42,7 +43,6 @@ class PostsType extends AbstractType
                         [
                             'label' => 'Image de couverture *',
                             'required' => true,
-                            'mapped' => false,
                             'constraints' => [
                                 new File([
                                     'maxSize' => '5M',
@@ -60,6 +60,7 @@ class PostsType extends AbstractType
                         [
                             'label' => 'Image 2',
                             'mapped' => false,
+                            'required' => false,
                             'constraints' => [
                                 new File([
                                     'maxSize' => '5M',

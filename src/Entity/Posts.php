@@ -22,7 +22,7 @@ class Posts
     #[ORM\Column(length: 750)]
     private ?string $contents = null;
 
-    #[ORM\Column(length: 750)]
+    #[ORM\Column(length: 750, nullable: true)]
     private ?string $contents2 = null;
 
     #[ORM\Column(length: 255)]
@@ -42,6 +42,9 @@ class Posts
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $imgPost = null;
+
+    #[ORM\Column(length: 500)]
+    private ?string $imgThumbnail = null;
 
     public function getId(): ?int
     {
@@ -155,6 +158,18 @@ class Posts
     public function setImgPost(string $imgPost): self
     {
         $this->imgPost = $imgPost;
+
+        return $this;
+    }
+
+    public function getImgThumbnail(): ?string
+    {
+        return $this->imgThumbnail;
+    }
+
+    public function setImgThumbnail(string $imgThumbnail): self
+    {
+        $this->imgThumbnail = $imgThumbnail;
 
         return $this;
     }

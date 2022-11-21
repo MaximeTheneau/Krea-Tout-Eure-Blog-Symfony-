@@ -35,7 +35,13 @@ security:
     access_control:
         - { path: ^/, roles: PUBLIC_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/back/user*, roles: ROLE_USER }
+
+    role_hierarchy:
+        # ADMIN ait les mêmes droits que MANAGER        
+        ROLE_ADMIN : ROLE_MANAGER
+        # MANAGER ait les mêmes droits que USER
+        ROLE_MANAGER : ROLE_USER
 
 when@test:
     security:

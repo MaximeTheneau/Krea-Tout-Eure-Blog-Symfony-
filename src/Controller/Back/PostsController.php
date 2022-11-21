@@ -61,10 +61,10 @@ class PostsController extends AbstractController
 
             // IMAGE 1
             $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
-            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
+            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgThumbnail', 'imgPost');
 
 
-            // IMAGE 2
+            /* IMAGE 2
             $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', 'imgPost-2');
 
             // IMAGE 3
@@ -73,7 +73,7 @@ class PostsController extends AbstractController
             // IMAGE 4
             $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', 'imgPost-4');
 
-           
+           */
 
             $postsRepository->save($post, true);
 
