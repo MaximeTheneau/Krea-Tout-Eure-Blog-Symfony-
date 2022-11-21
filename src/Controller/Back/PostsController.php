@@ -61,6 +61,7 @@ class PostsController extends AbstractController
 
             // IMAGE 1
             $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
+            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
 
 
             // IMAGE 2
