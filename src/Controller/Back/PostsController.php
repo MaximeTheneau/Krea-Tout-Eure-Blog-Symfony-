@@ -113,7 +113,29 @@ class PostsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $slug = $this->slugger->slug($post->getTitle());
+            $post->setSlug($slug);
+
+
+            // IMAGE 1
+            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', $slug );
+            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgThumbnail', $slug );
+
+
+            //IMAGE 2
+            if ($form->get('imgPost2')->getData() != null) {
+                $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', $slug );
+            }
+
+
+            // IMAGE 3
+            if ($form->get('imgPost3')->getData() != null) {
+            $this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $post, 'setImgPost3', $slug.'-3');
+            }
+            // IMAGE 4
+            if ($form->get('imgPost4')->getData() != null) {
+                $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', $slug.'-4');
+            }
             $postsRepository->save($post, true);
 
             return $this->redirectToRoute('app_back_posts_index', [

@@ -26,11 +26,17 @@ form{
     margin: auto;
 }
 form button.button, 
-a.button.is-light{
+a.button{
     width: 50%;
     display: block;
     margin: 1rem auto;
 
+}
+nav a.button.is-black,
+a.button.is-info,
+nav a.button.is-primary {
+    width: 100%;
+    margin: 0;
 }
 label{
     font-size: 1.5rem;

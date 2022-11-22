@@ -4,13 +4,27 @@
 
 
 <div class="has-text-centered">
-<h1> Bienvenue sur le BackOffice de Kréa Tout Eure</h1>
+    {% if app.user %}
+
+    {% endif %}
+    {% if not app.user %}
+    <a class="button is-primary " href="{{ path('app_login') }}">
+        <strong>Se connecter</strong>
+    </a>
+    <a class="button is-black " href="{{ path('app_register') }}">
+        <strong>Inscription</strong>
+    </a>
+    {% endif %}
 
 {% if is_granted('ROLE_USER') %}
  <div>
- <button class="button is-primary is-rounded is-outlined is-medium">
-    <a href="/posts/new" >Nouvelle Articles</a>
-</button>
+    <a href="/posts/new" class="button is-primary">
+        Nouveaux Article
+    </a>
+
+    <a class="button is-black " href="/logout" }}">
+        <strong>Déconnexion</strong>
+    </a>
 </div>
 {% endif %}
 </div>
