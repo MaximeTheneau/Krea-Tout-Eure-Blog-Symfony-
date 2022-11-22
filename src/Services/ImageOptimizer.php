@@ -82,7 +82,6 @@ class ImageOptimizer
         } else {
             $height = $width / $ratio;
         }
-        $widthImg = $width / 2;
         
         #dd($width, $height);
         

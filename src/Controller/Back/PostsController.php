@@ -42,6 +42,10 @@ class PostsController extends AbstractController
     #[Route('/', name: 'app_back_posts_index', methods: ['GET'])]
     public function index(PostsRepository $postsRepository): Response
     {
+        #$img = json_decode($post->getImgPost(), true);
+        #$img = $postsRepository->findAll();
+        #dd($img);
+        #$img = json_decode($post->getImgPost(), true);
         return $this->render('back/posts/index.html.twig', [
             'posts' => $postsRepository->findAll(),
         ]);
@@ -60,20 +64,25 @@ class PostsController extends AbstractController
 
 
             // IMAGE 1
-            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', 'imgPost');
-            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgThumbnail', 'imgPost');
+            $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', $slug );
+            $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgThumbnail', $slug );
 
 
-            /* IMAGE 2
-            $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', 'imgPost-2');
+            //IMAGE 2
+            if ($form->get('imgPost2')->getData() != null) {
+                $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', $slug );
+            }
+
 
             // IMAGE 3
-            $this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $post, 'setImgPost3', 'imgPost-3');
-
+            if ($form->get('imgPost3')->getData() != null) {
+            $this->imageOptimizer->setPicture($form->get('imgPost3')->getData(), $post, 'setImgPost3', $slug.'-3');
+            }
             // IMAGE 4
-            $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', 'imgPost-4');
-
-           */
+            if ($form->get('imgPost4')->getData() != null) {
+                $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', $slug.'-4');
+            }
+           
 
             $postsRepository->save($post, true);
 
@@ -90,16 +99,10 @@ class PostsController extends AbstractController
     public function show(Posts $post): Response
     {
         $img = json_decode($post->getImgPost(), true);
-        $img2 = json_decode($post->getImgPost2(), true);
-        $img3 = json_decode($post->getImgPost3(), true);
-        $img4 = json_decode($post->getImgPost4(), true);
 
         return $this->render('back/posts/show.html.twig', [
             'post' => $post,
             'img' => $img,
-            'img2' => $img2,
-            'img3' => $img3,
-            'img4' => $img4,
         ]);
     }
 
@@ -113,7 +116,9 @@ class PostsController extends AbstractController
             
             $postsRepository->save($post, true);
 
-            return $this->redirectToRoute('app_back_posts_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_back_posts_index', [
+                'post' => $post,
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('back/posts/edit.html.twig', [

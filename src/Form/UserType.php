@@ -19,6 +19,7 @@ class UserType extends AbstractType
             ->add('email', null, [
                 'label' => 'Email',
                 'attr' => [
+                    'class' => 'input is-primary',
                     'placeholder' => 'Email',
                 ],
             ])
@@ -29,6 +30,7 @@ class UserType extends AbstractType
                 // avec cette option : le handleRequest() ne remplira pas le mot de passe dans l'entity user
                 'mapped' => false,
                 'attr' => [
+                    'class' => 'input is-primary',
                     'placeholder' => 'Laissez vide si inchangé'
                 ],
                 'constraints' => [

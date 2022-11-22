@@ -3,38 +3,22 @@
 {% block title %}Posts index{% endblock %}
 
 {% block body %}
-    <h1>Posts index</h1>
+    <h1>Les articles</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Contents</th>
-                <th>Contents2</th>
-                <th>Slug</th>
-                <th>ImgPost</th>
-                <th>ImgPost2</th>
-                <th>ImgPost3</th>
-                <th>ImgPost4</th>
-                <th>actions</th>
+                <th>Titre</th>
+                <th>Image de couverture</th>
             </tr>
         </thead>
         <tbody>
         {% for post in posts %}
             <tr>
-                <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
-                <td>{{ post.contents }}</td>
-                <td>{{ post.contents2 }}</td>
-                <td>{{ post.slug }}</td>
-                <td>{{ post.imgPost }}</td>
-                <td>{{ post.imgPost2 }}</td>
-                <td>{{ post.imgPost3 }}</td>
-                <td>{{ post.imgPost4 }}</td>
+                <td> <img src={{post.imgThumbnail}} alt="imgHeader" width="100px"></td>
                 <td>
-                    <a href="{{ path('app_back_posts_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_back_posts_edit', {'id': post.id}) }}">edit</a>
+                    <a href="{{ path('app_back_posts_edit', {'id': post.id}) }}" class="button is-info">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -45,5 +29,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_posts_new') }}">Create new</a>
+    <a href="{{ path('app_back_posts_new') }}" class="button is-primary">Nouvelle article</a>
 {% endblock %}

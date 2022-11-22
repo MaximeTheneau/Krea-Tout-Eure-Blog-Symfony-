@@ -47,8 +47,6 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_back_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        $authId = $this->getUser()->getId() == $user->getId() ? "ROLE_USER" : false;
-        $this->denyAccessUnlessGranted($authId);
 
         return $this->render('back/user/show.html.twig', [
             'id' => $user->getId(),
@@ -59,21 +57,18 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_back_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
-        $authId = $this->getUser()->getId() == $user->getId() ? "ROLE_USER" : false;
-        $this->denyAccessUnlessGranted($authId, "ROLE_MANAGER", "ROLE_ADMIN");
-
+    
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($user);
             $userRepository->save($user, true);
-
             return $this->redirectToRoute('app_back_user_index', [
-                'id' => $this->getUser()->getId(),
+                "user" => $user
             ], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('back/user/edit.html.twig', [
-            'id' => $this->getUser()->getId(),
             'user' => $user,
             'form' => $form,
         ]);

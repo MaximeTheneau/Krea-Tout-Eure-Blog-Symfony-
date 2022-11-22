@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Krea';
+    src: url(../fonts/wildy.ttf);
+}
+@font-face {
+    font-family: 'text';
+    src: url(../fonts/shrimp.ttf);
+}
+
+html {
+    overflow-y: scroll;
+}
+body {
+    font-family: 'text' !important;
+}
+.krea, 
+h1 {
+    font-size: 2rem;
+    font-family: 'Krea' !important;
+}
+h1{
+    text-align: center;
+}
+form{
+    width: 50%;
+    margin: auto;
+}
+form button.button, 
+a.button.is-light{
+    width: 50%;
+    display: block;
+    margin: 1rem auto;
+
+}
+label{
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+.card-krea{
+    font-family: 'krea';
+    font-size: 1.5rem;
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    display: block;
+    margin: 1rem ;
+}
+.cards{
+    display: flex;
+    justify-content: center;
+}
+.card-krea img{
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+}

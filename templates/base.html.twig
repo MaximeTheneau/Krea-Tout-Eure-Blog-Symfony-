@@ -11,7 +11,7 @@
         <script src="https://kit.fontawesome.com/f611d5d8e1.js" crossorigin="anonymous"></script>
 
         <!-- Our custom CSS -->
-        <link rel="stylesheet" href="{{ asset('css/portofolio.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/krea.css') }}">
         
 
         <title>Backoffice Theneau Maxime</title>
@@ -34,8 +34,8 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      Le Backoffice de Krea Tout Eure
+    <a class="navbar-item is-flex-direction-column is-align-items-flex-start" href="/">
+      Backoffice de <span class="krea is-size-4">Krea Tout Eure</span>
     </a>
 
 
@@ -49,24 +49,26 @@
       <a class="navbar-item" href="/">
         Accueil
       </a>
-
+      
       {% if is_granted('ROLE_USER') %}
-        <a class="navbar-item" href="/posts">
-            Articles 
-        </a>
-        {% if app.user %}
-          <a class="navbar-item" href='/user/{{id}}/edit'>
-              Mon compte
+          <a class="navbar-item" href="/posts">
+              Les articles 
           </a>
-        {% endif %}
+          <a class="navbar-item" href="/posts/new">
+              Nouvelle article
+          </a>
+          
+            <a class="navbar-item" href={{ path('app_back_user_edit', {'id': app.user.id}) }}>
+                Mon compte
+            </a>
       {% endif %}
-      {% if is_granted('ROLE_MANAGER') %}
+       {% if is_granted('ROLE_MANAGER') %}
 
         <a class="navbar-item" href="/user">
           Utilisateurs
         </a>
       {% endif %}
-
+     
 
     </div>
 

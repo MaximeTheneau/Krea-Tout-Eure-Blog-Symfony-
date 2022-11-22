@@ -3,8 +3,16 @@
 {% block body %}
 
 
-<div class="text-center">
-<h1> Bienvenue sur le BackOffice d'O'Miam </h1>
+<div class="has-text-centered">
+<h1> Bienvenue sur le BackOffice de Kréa Tout Eure</h1>
+
+{% if is_granted('ROLE_USER') %}
+ <div>
+ <button class="button is-primary is-rounded is-outlined is-medium">
+    <a href="/posts/new" >Nouvelle Articles</a>
+</button>
+</div>
+{% endif %}
 </div>
 
 
