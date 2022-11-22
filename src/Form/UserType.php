@@ -14,19 +14,15 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        
         $builder
-            ->add('email')
-            ->add('roles', ChoiceType::class,
-            [
-                'choices' => [
-                    'user' => 'ROLE_USER',
-                    'admin' => 'ROLE_ADMIN',
-                    'manager' => 'ROLE_MANAGER',
+            ->add('email', null, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Email',
                 ],
-                "multiple" => true,
-                // radio buttons or checkboxes
-                "expanded" => true
             ])
+       
             ->add('password', PasswordType::class, [
                 // Pour le form d'édition, on n'associe pas le password à l'entité
                 // @link https://symfony.com/doc/current/reference/forms/types/form.html#mapped
