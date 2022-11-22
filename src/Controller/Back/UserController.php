@@ -58,13 +58,20 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
     
+        $verifId = $this->getUser()->getId() == $user->getId();
+        $verifRole = $this->isGranted("ROLE_ADMIN");
+
+        if(!$verifId && !$verifRole){
+            return $this->redirectToRoute('app_back_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+        #dd($verifId);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($user);
             $userRepository->save($user, true);
             return $this->redirectToRoute('app_back_user_index', [
+
                 "user" => $user
             ], Response::HTTP_SEE_OTHER);
         }

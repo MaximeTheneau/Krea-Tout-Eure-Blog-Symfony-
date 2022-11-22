@@ -39,8 +39,15 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/, roles: PUBLIC_ACCESS }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/back/user*, roles: ROLE_USER }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+
+        - { path: ^/posts/*, roles: ROLE_USER }
+        - { path: ^/posts/*, roles: ROLE_USER }
+        #- { path: ^/back/(.*)/, roles: ROLE_USER }
+
+        
+        - { path: ^/back/(.*)/(new|edit), roles: [ROLE_ADMIN] }
 
     role_hierarchy:
         # ADMIN ait les mêmes droits que MANAGER        
