@@ -25,23 +25,23 @@ class Posts
     #[ORM\Column(length: 750, nullable: true)]
     private ?string $contents2 = null;
 
+    #[ORM\Column(length: 70, nullable: true)]
+    private ?string $subtitle = null;
+    
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    private ?string $imgPost2 = null;
+    private ?array $imgPost = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    private ?string $imgPost3 = null;
+    private ?array $imgPost2 = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    private ?string $imgPost4 = null;
-
-    #[ORM\Column(length: 70, nullable: true)]
-    private ?string $subtitle = null;
+    private ?array $imgPost3 = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    private ?string $imgPost = null;
+    private ?array $imgPost4 = null;
 
     #[ORM\Column(length: 500)]
     private ?string $imgThumbnail = null;
@@ -100,42 +100,36 @@ class Posts
     }
 
 
-
-
-    public function getImgPost2(): ?string
+    public function getImgPost2(): ?array
     {
         return $this->imgPost2;
     }
 
-    public function setImgPost2(?string $imgPost2): self
+    public function setImgPost2(?array $imgPost2): void
     {
         $this->imgPost2 = $imgPost2;
 
-        return $this;
     }
 
-    public function getImgPost3(): ?string
+    public function getImgPost3(): ?array
     {
         return $this->imgPost3;
     }
 
-    public function setImgPost3(?string $imgPost3): self
+    public function setImgPost3(?array $imgPost3): void
     {
         $this->imgPost3 = $imgPost3;
-
-        return $this;
     }
 
-    public function getImgPost4(): ?string
+    public function getImgPost4(): ?array
     {
         return $this->imgPost4;
     }
 
-    public function setImgPost4(?string $imgPost4): self
+    public function setImgPost4(?array $imgPost4): void
     {
         $this->imgPost4 = $imgPost4;
 
-        return $this;
     }
 
     public function getSubtitle(): ?string
@@ -150,16 +144,14 @@ class Posts
         return $this;
     }
 
-    public function getImgPost(): ?string
+    public function getImgPost(): ?array
     {
         return $this->imgPost;
     }
 
-    public function setImgPost(string $imgPost): self
+    public function setImgPost(array $imgPost): void
     {
         $this->imgPost = $imgPost;
-
-        return $this;
     }
 
     public function getImgThumbnail(): ?string

@@ -2,36 +2,53 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PagesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PagesRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    order: ['createdAt' => 'DESC'],
+    paginationEnabled: false,
+)]
+#[ApiFilter(SearchFilter::class, properties: ['conference' => 'exact'])]
 class Pages
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_pages_browse', 'api_pages_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 70)]
+    #[Groups(['api_pages_browse', 'api_pages_read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 70, nullable: true)]
+    #[Groups(['api_pages_read'])]
     private ?string $subtitle = null;
 
     #[ORM\Column(length: 750)]
+    #[Groups(['api_pages_read'])]
     private ?string $contents = null;
 
     #[ORM\Column(length: 750, nullable: true)]
+    #[Groups(['api_pages_read'])]
     private ?string $contents2 = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_pages_browse', 'api_pages_read'])]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imgHeader = null;
+    #[ORM\Column(length: 500)]
+    #[Groups(['api_pages_read'])]
+    private ?array $imgHeader = null;
+
+    #[ORM\Column(length: 500)]
+    private ?string $imgThumbnail = null;
 
     public function getId(): ?int
     {
@@ -98,14 +115,24 @@ class Pages
         return $this;
     }
 
-    public function getImgHeader(): ?string
+    public function getImgHeader(): ?array
     {
         return $this->imgHeader;
     }
 
-    public function setImgHeader(string $imgHeader): self
+    public function setImgHeader(array $imgHeader): void
     {
         $this->imgHeader = $imgHeader;
+    }
+
+    public function getImgThumbnail(): ?string
+    {
+        return $this->imgThumbnail;
+    }
+
+    public function setImgThumbnail(string $imgThumbnail): self
+    {
+        $this->imgThumbnail = $imgThumbnail;
 
         return $this;
     }

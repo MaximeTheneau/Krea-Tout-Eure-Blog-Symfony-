@@ -11,6 +11,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ImageOptimizer
 {
@@ -20,13 +23,13 @@ class ImageOptimizer
     private $photoDir;
     private $projectDir;
     private $imagine;
-
+    private $serializer;
     private $dataManager;
 
     public function __construct(
         SluggerInterface $slugger,
         ContainerBagInterface $params,
-
+        SerializerInterface $serializer,
         DataManager $dataManager,
         )
         {
@@ -36,6 +39,7 @@ class ImageOptimizer
             $this->photoDir =  $this->params->get('app.imgDir');
             $this->projectDir =  $this->params->get('app.projectDir');
             $this->imagine = new Imagine();
+            $this->serializer = $serializer;
     }
 
     public function setPicture( $brochureFile, $post, $setName, $slug ): void
@@ -46,7 +50,7 @@ class ImageOptimizer
                 .'"middle": "'.$this->projectDir.$this->photoDir.$slug.'-m.webp",'
                 .'"large": "'.$this->projectDir.$this->photoDir.$slug.'-l.webp"}';
 
-        $post->$setName($newForm);
+        $post->$setName($this->serializer->decode($newForm, 'json'));
 
         
         #dd($this->photoDir.$slug.'s-w250-q80.webp');

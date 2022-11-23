@@ -42,9 +42,12 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
 
+
         - { path: ^/posts/*, roles: ROLE_USER }
         - { path: ^/posts/*, roles: ROLE_USER }
-        #- { path: ^/back/(.*)/, roles: ROLE_USER }
+
+        - { path: ^/pages/*, roles: ROLE_MANAGER }
+        - { path: ^/pages/*, roles: ROLE_MANAGER }
 
         
         - { path: ^/back/(.*)/(new|edit), roles: [ROLE_ADMIN] }

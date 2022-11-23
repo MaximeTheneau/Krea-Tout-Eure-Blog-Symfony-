@@ -23,6 +23,7 @@ class PagesType extends AbstractType
                 [
                     'label' => 'Image de couverture',
                     'mapped' => false,
+                    'required' => false,
                     'constraints' => [
                         new File([
                             'maxSize' => '5M',
