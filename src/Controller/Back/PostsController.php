@@ -4,6 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\Posts;
 use App\Form\PostsType;
+use DateTime;
 use App\Repository\PostsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\File;
-
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use App\Services\ImageOptimizer;
 
@@ -57,7 +57,8 @@ class PostsController extends AbstractController
         $post = new Posts();
         $form = $this->createForm(PostsType::class, $post);
         $form->handleRequest($request);
-        
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $this->slugger->slug($post->getTitle());
             $post->setSlug($slug);
@@ -82,12 +83,13 @@ class PostsController extends AbstractController
             if ($form->get('imgPost4')->getData() != null) {
                 $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', $slug.'-4');
             }
-           
+            $post->setCreatedAt(new DateTime());
 
             $postsRepository->save($post, true);
 
             return $this->redirectToRoute('app_back_posts_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->renderForm('back/posts/new.html.twig', [
             'post' => $post,
@@ -122,13 +124,14 @@ class PostsController extends AbstractController
 
 
             // IMAGE 1
+            if ($form->get('imgPost')->getData() != null) {
             $this->imageOptimizer->setPicture($form->get('imgPost')->getData(), $post, 'setImgPost', $slug );
             $this->imageOptimizer->setThumbnail($form->get('imgPost')->getData(), $post, 'setImgThumbnail', $slug );
-
+            }
 
             //IMAGE 2
             if ($form->get('imgPost2')->getData() != null) {
-                $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', $slug );
+                $this->imageOptimizer->setPicture($form->get('imgPost2')->getData(), $post, 'setImgPost2', $slug.'-2' );
             }
 
 
@@ -140,6 +143,7 @@ class PostsController extends AbstractController
             if ($form->get('imgPost4')->getData() != null) {
                 $this->imageOptimizer->setPicture($form->get('imgPost4')->getData(), $post, 'setImgPost4', $slug.'-4');
             }
+            $post->setUpdatedAt(new DateTime());
             $postsRepository->save($post, true);
 
             return $this->redirectToRoute('app_back_posts_index', [
@@ -156,7 +160,7 @@ class PostsController extends AbstractController
     #[Route('/{id}', name: 'app_back_posts_delete', methods: ['POST'])]
     public function delete(Request $request, Posts $post, PostsRepository $postsRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
 
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $postsRepository->remove($post, true);

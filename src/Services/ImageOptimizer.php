@@ -45,27 +45,32 @@ class ImageOptimizer
     public function setPicture( $brochureFile, $post, $setName, $slug ): void
     {   
 
-        #dd($this->projectDir.$this->photoDir.$slug.'s-w250-q80.webp,');
-        $newForm = '{"small": "'.$this->projectDir.$this->photoDir.$slug.'-s.webp",'
-                .'"middle": "'.$this->projectDir.$this->photoDir.$slug.'-m.webp",'
-                .'"large": "'.$this->projectDir.$this->photoDir.$slug.'-l.webp"}';
 
-        $post->$setName($this->serializer->decode($newForm, 'json'));
 
         
         #dd($this->photoDir.$slug.'s-w250-q80.webp');
         $small = $this->imagine->open($brochureFile)
             ->thumbnail(new Box(320, 320))
             ->save($this->photoDir.$slug.'-s.webp', ['webp_quality' => 80]);
-        
+        $heightSmall = $small->getSize()->getHeight();
+    
         $middle = $this->imagine->open($brochureFile)
             ->thumbnail(new Box(640, 640))
             ->save($this->photoDir.$slug.'-m.webp', ['webp_quality' => 80]);
+        $heightMiddle = $middle->getSize()->getHeight();
 
         $large = $this->imagine->open($brochureFile)
             ->thumbnail(new Box(1000, 1000))
             ->save($this->photoDir.$slug.'-l.webp', ['webp_quality' => 100]);
-    
+        $heightLarge = $large->getSize()->getHeight();
+        $widthLarge = $large->getSize()->getWidth();
+
+
+
+        $newForm = '{"small": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-s.webp", "width": 320, "height": '.$heightSmall.'}, "medium": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-m.webp", "width": 640, "height": '.$heightMiddle.'}, "large": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-l.webp", "width": '.$widthLarge.', "height": '.$heightLarge.'}}';
+
+        #dd($newForm);
+        $post->$setName($this->serializer->decode($newForm, 'json'));
     }
 
     public function setThumbnail( $brochureFile, $post, $setName, $slug ): void
