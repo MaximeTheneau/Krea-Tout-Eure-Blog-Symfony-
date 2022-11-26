@@ -8,7 +8,6 @@ use Imagine\Image\Point;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -24,13 +23,11 @@ class ImageOptimizer
     private $projectDir;
     private $imagine;
     private $serializer;
-    private $dataManager;
 
     public function __construct(
         SluggerInterface $slugger,
         ContainerBagInterface $params,
         SerializerInterface $serializer,
-        DataManager $dataManager,
         )
         {
                    
@@ -49,25 +46,13 @@ class ImageOptimizer
 
         
         #dd($this->photoDir.$slug.'s-w250-q80.webp');
-        $small = $this->imagine->open($brochureFile)
-            ->thumbnail(new Box(320, 320))
-            ->save($this->photoDir.$slug.'-s.webp', ['webp_quality' => 80]);
-        $heightSmall = $small->getSize()->getHeight();
-    
-        $middle = $this->imagine->open($brochureFile)
-            ->thumbnail(new Box(640, 640))
-            ->save($this->photoDir.$slug.'-m.webp', ['webp_quality' => 80]);
-        $heightMiddle = $middle->getSize()->getHeight();
-
-        $large = $this->imagine->open($brochureFile)
+        $img = $this->imagine->open($brochureFile)
             ->thumbnail(new Box(1000, 1000))
-            ->save($this->photoDir.$slug.'-l.webp', ['webp_quality' => 100]);
-        $heightLarge = $large->getSize()->getHeight();
-        $widthLarge = $large->getSize()->getWidth();
+            ->save($this->photoDir.$slug.'.webp', ['webp_quality' => 80]);
+        $heightSmall = $img->getSize()->getHeight();
+        $widthSmall = $img->getSize()->getWidth();
 
-
-
-        $newForm = '{"small": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-s.webp", "width": 320, "height": '.$heightSmall.'}, "medium": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-m.webp", "width": 640, "height": '.$heightMiddle.'}, "large": {"path": "'.$this->projectDir.$this->photoDir.$slug.'-l.webp", "width": '.$widthLarge.', "height": '.$heightLarge.'}}';
+        $newForm = '{"path": "'.$this->projectDir.$this->photoDir.$slug.'.webp", "width": '.$widthSmall.', "height": '.$heightSmall.'}';
 
         #dd($newForm);
         $post->$setName($this->serializer->decode($newForm, 'json'));
