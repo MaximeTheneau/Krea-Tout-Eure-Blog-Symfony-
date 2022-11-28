@@ -30,8 +30,7 @@ class PostsController extends ApiController
     public function browse(PostsRepository $postsRepository ): JsonResponse
     {
     
-        $allPosts = $postsRepository->findAll();
-        #dd($allPages);
+        $allPosts = $postsRepository->findLastPosts();
 
         return $this->json(
             $allPosts,
@@ -52,7 +51,7 @@ class PostsController extends ApiController
     public function thumbnail(PostsRepository $postsRepository ): JsonResponse
     {
     
-        $allPosts = $postsRepository->findAll();
+        $allPosts = $postsRepository->findLastPosts();
         #dd($allPages);
 
         return $this->json(
@@ -84,8 +83,6 @@ class PostsController extends ApiController
                 Response::HTTP_NOT_FOUND,// 404
             );
         }
-
-
 
         return $this->json(
             $posts,

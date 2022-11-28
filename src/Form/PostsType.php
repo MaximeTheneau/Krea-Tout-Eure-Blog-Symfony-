@@ -25,11 +25,11 @@ class PostsType extends AbstractType
                 ]
             ])
             ->add('contents', TextareaType::class, [
-                'label' => 'Contenu de l\'article *',
+                'label' => 'Contenu de l\'article ',
                 'required' => false,
                 'attr' => [
                     'class' => 'textarea',
-                    'placeholder' => 'Le Premier contenu est obligatoire',
+                    'placeholder' => 'Le contenu est optionnel',
                 ]
             ])
             ->add('subtitle', TextType::class, [

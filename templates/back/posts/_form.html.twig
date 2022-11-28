@@ -1,4 +1,36 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    {{ form_label(form.contents) }}
+    {{ form_widget(form.contents) }}
+    {{ form_label(form.subtitle) }}
+    {{ form_widget(form.subtitle) }}
+    {{ form_label(form.contents2) }}
+    {{ form_widget(form.contents2) }}
+    {% if post.imgPost %}
+    <div class="card-krea">
+        <img src={{post.imgPost.path }} alt="">
+    </div>
+    {{ form_widget(form.imgPost) }}
+    {% endif %}
+    {% if post.imgPost2 != null %}
+        <div class="card-krea">
+            <img src={{post.imgPost2.path}} alt="">
+        </div>
+    {{ form_widget(form.imgPost2) }}
+    {% endif %}
+    {% if post.imgPost3 != null %}
+        <div class="card-krea">
+            <img src={{post.imgPost3.path}} alt="">
+        </div>
+    {{ form_widget(form.imgPost3) }}
+    {% endif %}
+    {% if post.imgPost4 != null %}
+        <div class="card-krea">
+            <img src={{post.imgPost4.path}} alt="">
+        </div>
+    {{ form_widget(form.imgPost4) }}
+    {% endif %}
+
     <button class="button is-primary">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

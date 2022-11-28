@@ -45,7 +45,7 @@ class PostsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         return $this->render('back/posts/index.html.twig', [
-            'posts' => $postsRepository->findAll(),
+            'posts' => $postsRepository->findLastPosts(),
         ]);
     }
 

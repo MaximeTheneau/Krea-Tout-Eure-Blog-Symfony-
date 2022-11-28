@@ -9,10 +9,10 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 
 #[ORM\Entity(repositoryClass: PostsRepository::class)]
-#[ApiResource(
-)]
+#[ApiResource]
 class Posts
 {
 
