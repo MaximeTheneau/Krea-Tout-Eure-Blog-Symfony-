@@ -3,9 +3,17 @@
 {% block title %}New Posts{% endblock %}
 
 {% block body %}
-    <h1>Create new Posts</h1>
-
-    {{ include('back/posts/_form.html.twig') }}
-
-    <a href="{{ path('app_back_posts_index') }}">back to list</a>
+    <h1>Nouvelles Articles</h1>
+    <div class="cards">
+        <div class="card-krea">
+            Le sous-titre de l'article ne doit pas faire plus de 70 caractère comme le texte ici 70 ...
+        </div>
+        <div class="card-krea">
+            <img src="/uploads/images/Accessoires-en-Tricot.webp" alt="">
+        </div>
+    </div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="button is-primary">{{ button_label|default('Sauvegarder') }}</button>
+    {{ form_end(form) }}
 {% endblock %}
