@@ -7,30 +7,38 @@
     {{ form_widget(form.subtitle) }}
     {{ form_label(form.contents2) }}
     {{ form_widget(form.contents2) }}
+    {{ form_label(form.imgPost) }}
+
     {% if post.imgPost %}
     <div class="card-krea">
         <img src={{post.imgPost.path }} alt="">
     </div>
-    {{ form_widget(form.imgPost) }}
     {% endif %}
+    {{ form_widget(form.imgPost) }}
+
+    {{ form_label(form.imgPost2) }}
     {% if post.imgPost2 != null %}
         <div class="card-krea">
             <img src={{post.imgPost2.path}} alt="">
         </div>
-    {{ form_widget(form.imgPost2) }}
     {% endif %}
+    {{ form_widget(form.imgPost2) }}
+    
+    {{ form_label(form.imgPost3) }}
     {% if post.imgPost3 != null %}
         <div class="card-krea">
             <img src={{post.imgPost3.path}} alt="">
         </div>
-    {{ form_widget(form.imgPost3) }}
     {% endif %}
+    {{ form_widget(form.imgPost3) }}
+
+    {{ form_label(form.imgPost4) }}
     {% if post.imgPost4 != null %}
         <div class="card-krea">
             <img src={{post.imgPost4.path}} alt="">
         </div>
-    {{ form_widget(form.imgPost4) }}
     {% endif %}
+    {{ form_widget(form.imgPost4) }}
 
     <button class="button is-primary">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ImageOptimizer
 {
-
     private $slugger;
     private $params;
     private $photoDir;
@@ -82,6 +81,33 @@ class ImageOptimizer
         $thumbnail = $this->imagine->open($brochureFile)
         ->thumbnail(new Box($width, $height))
         ->save($this->photoDir.$slug.'-miniature.webp', ['webp_quality' => 80]);
+        
+    }
+
+    public function setThumbnailJpg( $brochureFile, $post, $setName, $slug ): void
+    {   
+
+        #dd($this->projectDir.$this->photoDir.$slug.'s-w250-q80.webp,');
+        $newForm = $this->projectDir.$this->photoDir.$slug.'.png';
+        #dd($newForm);
+
+        $post->$setName($newForm);
+
+        list($iwidth, $iheight) = getimagesize($brochureFile);
+        $ratio = $iwidth / $iheight;
+        $width =  250;
+        $height = 250;
+        if ($width / $height < $ratio) {
+            $width = $height * $ratio;
+        } else {
+            $height = $width / $ratio;
+        }
+        
+        #dd($width, $height);
+        
+        $thumbnail = $this->imagine->open($brochureFile)
+        ->thumbnail(new Box($width, $height), 'inset')
+        ->save($this->photoDir.$slug.'.png', ['png_quality' => 80]);
         
     }
         

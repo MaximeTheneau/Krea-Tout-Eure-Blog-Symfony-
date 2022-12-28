@@ -40,7 +40,7 @@ class PlaceholderController extends ApiController
             [
                 "groups" => 
                 [
-                    "api_posts_browse"
+                    "api_placeholder_browse"
                 ]
             ]
         );

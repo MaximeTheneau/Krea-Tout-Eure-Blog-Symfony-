@@ -15,17 +15,14 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class KreaAuthenticator extends AbstractLoginFormAuthenticator
+class ApiAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'api_check_login';
 
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function authenticate(Request $request): Passport
@@ -50,23 +47,12 @@ class KreaAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate(se));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
+        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
-    }
-
-    public function supports(Request $request): bool
-    {
-        // le code du AbstractLoginFormAuthenticator
-        // dump($this->getLoginUrl($request)); // affiche avec un accès avec apache /symfo/oflix-JB-oclock/public/login
-        // dump($request->getPathInfo()); // affiche /login
-        // donc l'authenticator ne 
-        // return $request->isMethod('POST') && $this->getLoginUrl($request) === $request->getPathInfo();
-
-        return $request->isMethod('POST') && '/login' === $request->getPathInfo();
     }
 }

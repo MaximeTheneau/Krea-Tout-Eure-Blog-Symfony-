@@ -19,7 +19,7 @@ class Posts
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['api_posts_browse', 'api_posts_read'])]
+    #[Groups(['api_posts_browse', 'api_posts_read', 'api_posts_thumbnail'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 70)]
@@ -63,10 +63,16 @@ class Posts
     private ?string $imgThumbnail = null;
 
     #[ORM\Column]
+    #[Groups(['api_posts_read'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['api_posts_read'])]
     private ?\DateTime $updatedAt = null;
+
+    #[ORM\Column(length: 500)]
+    #[Groups(['api_posts_thumbnail'])]
+    private ?string $imgThumbnailJpg = null;
 
 
     public function getId(): ?int
@@ -213,6 +219,18 @@ class Posts
     public function setUpdatedAt(?\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImgThumbnailJpg(): ?string
+    {
+        return $this->imgThumbnailJpg;
+    }
+
+    public function setImgThumbnailJpg(string $imgThumbnailJpg): self
+    {
+        $this->imgThumbnailJpg = $imgThumbnailJpg;
 
         return $this;
     }

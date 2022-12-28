@@ -49,12 +49,12 @@ class ContactController extends ApiController
             );
         }
 
-        $webmaster = $data['webmaster'] = 'max.the.guymauve@gmail.com';
+        $webmaster = $data['webmaster'] = 'email@example.com';
         if ($data['contactTo'] === 'webmaster' ){
-        $emailFrom = 'max.the.guymauve@gmail.com';
+        $emailFrom = 'email@example.com';
         }
         if ($data['contactTo'] === 'assoc' ){
-        $emailFrom = 'sylvianepottin@hotmail.fr';
+        $emailFrom = 'email@example.fr';
         }
         
         $email = (new TemplatedEmail())

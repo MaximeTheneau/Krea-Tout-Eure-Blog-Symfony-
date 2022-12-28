@@ -4,10 +4,11 @@ namespace App\Security;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
-class Admin implements UserInterface, PasswordAuthenticatedUserInterface
+class Contact extends AbstractToken implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private $email;
+    private $username;
 
     private $roles = [];
 
@@ -16,14 +17,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
-    public function getEmail(): ?string
+    public function getUsername(): ?string
     {
-        return $this->email;
+        return $this->username;
     }
 
-    public function setEmail(string $email): self
+    public function setUsername(string $username): self
     {
-        $this->email = $email;
+        $this->username = $username;
 
         return $this;
     }
@@ -35,7 +36,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -45,7 +46,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_ADMIN';
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }

@@ -31,7 +31,7 @@ class Pages
     #[Groups(['api_pages_read'])]
     private ?string $subtitle = null;
 
-    #[ORM\Column(length: 750)]
+    #[ORM\Column(length: 1000)]
     #[Groups(['api_pages_read'])]
     private ?string $contents = null;
 
@@ -43,12 +43,16 @@ class Pages
     #[Groups(['api_pages_browse', 'api_pages_read'])]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column()]
     #[Groups(['api_pages_read'])]
     private ?array $imgHeader = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 800, nullable: true)]
     private ?string $imgThumbnail = null;
+
+    #[ORM\Column(length: 500)]
+    #[Groups(['api_pages_read'])]
+    private ?string $imgHeaderJpg = null;
 
     public function getId(): ?int
     {
@@ -133,6 +137,18 @@ class Pages
     public function setImgThumbnail(string $imgThumbnail): self
     {
         $this->imgThumbnail = $imgThumbnail;
+
+        return $this;
+    }
+
+    public function getImgHeaderJpg(): ?string
+    {
+        return $this->imgHeaderJpg;
+    }
+
+    public function setImgHeaderJpg(string $imgHeaderJpg): self
+    {
+        $this->imgHeaderJpg = $imgHeaderJpg;
 
         return $this;
     }

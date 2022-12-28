@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+
 
 class PagesType extends AbstractType
 {
@@ -16,8 +19,22 @@ class PagesType extends AbstractType
         $builder
             ->add('title')
             ->add('subtitle')
-            ->add('contents')
-            ->add('contents2')
+            ->add('contents', TextareaType::class, [
+                'label' => 'Contenu de l\'article ',
+                'required' => false,
+                'attr' => [
+                    'class' => 'textarea',
+                    'placeholder' => 'Le contenu est optionnel',
+                ]
+            ])
+            ->add('contents2', TextareaType::class, [
+                'label' => 'Contenu de l\'article ',
+                'required' => false,
+                'attr' => [
+                    'class' => 'textarea',
+                    'placeholder' => 'Le contenu est optionnel',
+                ]
+            ])
             ->add('imgHeader',
                 FileType::class,
                 [
