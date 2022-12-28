@@ -8,24 +8,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Title</th>
                 <th>Subtitle</th>
-                <th>Contents</th>
-                <th>Contents2</th>
+                <th>Contenu</th>
                 <th>imgHeader</th>
             </tr>
         </thead>
         <tbody>
         {% for page in pages %}
             <tr>
-                <td>{{ page.id }}</td>
                 <td>{{ page.title }}</td>
-                <td>{{ page.subtitle }}</td>
-                <td>{{ page.contents }}</td>
-                <td>{{ page.contents2 }}</td>
                 <td>
-                    <img src={{page.imgHeader}} alt="imgHeader" width="100px">
+                    <img src={{page.imgThumbnail}} alt="imgHeader" width="100px">
                 </td>
                 <td>
                     <a href="{{ path('app_back_pages_show', {'id': page.id}) }}">show</a>

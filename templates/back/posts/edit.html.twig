@@ -14,12 +14,11 @@
     </div>
 
         
-
-
-
     {{ include('back/posts/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
     <a href="{{ path('app_back_posts_index') }}" class="button is-light">Retour à la list</a>
 
-    {{ include('back/posts/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_MANAGER') %}
+        {{ include('back/posts/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

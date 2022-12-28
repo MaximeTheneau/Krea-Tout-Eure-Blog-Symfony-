@@ -42,7 +42,7 @@ class PagesController extends AbstractController
     #[Route('/', name: 'app_back_pages_index', methods: ['GET'])]
     public function index(PagesRepository $pagesRepository): Response
     {        
-
+        #$this->denyAccessUnlessGranted('ROLE_MANAGER');
         return $this->render('back/pages/index.html.twig', [
             'pages' => $pagesRepository->findAll(),
         ]);
@@ -50,7 +50,9 @@ class PagesController extends AbstractController
 
     #[Route('/new', name: 'app_back_pages_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PagesRepository $pagesRepository): Response
-    {
+    {   
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         $page = new Pages();
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
@@ -59,12 +61,14 @@ class PagesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $slugImg = $this->projectDir.$this->photoDir.$this->slugger->slug($this->slugger->slug($page->getTitle())).'-500-100.webp';
-            
-            $this->imageOptimizer->setPicture($form->get('imgHeader')->getData(), $this->slugger->slug($page->getTitle()));
+            $slug = $this->slugger->slug($page->getTitle());
+            $page->setSlug($slug);
 
-            $page->setSlug($this->slugger->slug($page->getTitle()));
-            $page->setImgHeader($slugImg);
+            // IMAGE 1
+            $this->imageOptimizer->setPicture($form->get('imgHeader')->getData(), $page, 'setImgHeader', $slug );
+            $this->imageOptimizer->setThumbnail($form->get('imgHeader')->getData(), $page, 'setImgThumbnail', $slug );
+
+        
             $pagesRepository->save($page, true);
             
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
@@ -79,6 +83,8 @@ class PagesController extends AbstractController
     #[Route('/{id}', name: 'app_back_pages_show', methods: ['GET'])]
     public function show(Pages $page): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         return $this->render('back/pages/show.html.twig', [
             'page' => $page,
         ]);
@@ -87,10 +93,23 @@ class PagesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_back_pages_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Pages $page, PagesRepository $pagesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
         
         $form = $this->createForm(PagesType::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $this->slugger->slug($page->getTitle());
+            $page->setSlug($slug);
+
+            // IMAGE 1
+            if ($form->get('imgHeader')->getData() != null) {
+                $this->imageOptimizer->setPicture($form->get('imgHeader')->getData(), $page, 'setImgHeader', $slug );
+                $this->imageOptimizer->setThumbnail($form->get('imgHeader')->getData(), $page, 'setImgThumbnail', $slug );
+                $this->imageOptimizer->setThumbnailJpg($form->get('imgHeader')->getData(), $page, 'setImgHeaderJpg', $slug );
+            
+            }
+
+
             $pagesRepository->save($page, true);
             return $this->redirectToRoute('app_back_pages_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -104,6 +123,8 @@ class PagesController extends AbstractController
     #[Route('/{id}', name: 'app_back_pages_delete', methods: ['POST'])]
     public function delete(Request $request, Pages $page, PagesRepository $pagesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_MANAGER');
+
         if ($this->isCsrfTokenValid('delete'.$page->getId(), $request->request->get('_token'))) {
             $pagesRepository->remove($page, true);
         }
