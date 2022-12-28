@@ -1,4 +1,4 @@
-# <img src="public/uploads/images/logo-krea-tout-eure.webp" width="12%" > Krea-Tout-Eure-Blog-Symfony
+# Krea-Tout-Eure-Blog-Symfony
 
 Blog "Kréa Tout Eure" est un blog réaliser pour l'assiocation Kréa Tout'Eure.
 
